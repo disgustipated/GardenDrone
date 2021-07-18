@@ -3,16 +3,12 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <Wire.h>
-#include "DHT.h"
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
 #include <WiFiUdp.h>
-
-#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 
 //PINS
 const int RED_DATA_PIN = 0;
 const int WIFI_INFO_LED_PIN = 2;
-#define DHTPIN 4     // Digital pin connected to the DHT sensor
 const int PUMP_ACTIVATE_PIN = 12;
 #define echoPin 13
 const int WIFI_RESET_PIN = 14;
@@ -34,7 +30,6 @@ MDNSResponder mdns;
 ESP8266WebServer server(statusPagePort); //this cant be running on port 80 because of the wifimanager
 WiFiClient espClient;
 WiFiManager wifiManager;
-DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
   Serial.begin(9600);
@@ -44,7 +39,6 @@ void setup() {
   pinMode(echoPin, INPUT);
   //wifiManager.setSTAStaticIPConfig(IPAddress(6,13,0,218), IPAddress(6,13,0,1), IPAddress(255,255,255,0)); //Remove this for DHCP
   wifiManager.autoConnect("ESPSetup", "wifiSetup1");
-  dht.begin();
   setupWeb();
 }
 

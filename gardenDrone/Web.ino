@@ -22,9 +22,6 @@ void handleRoot() {
   int sec = millis() / 1000;
   int min = sec / 60;
   int hr = min / 60;
-  float sensorDataTemp = dht.readTemperature(true);
-  float sensorDataHumd = dht.readHumidity();
-  float sensorDataIndx = dht.computeHeatIndex(sensorDataTemp,sensorDataHumd);
   //conversion specifiers https://www.programiz.com/cpp-programming/library-function/cstdio/sprintf
   snprintf(temp, 1500,
            "<html>\
@@ -52,11 +49,12 @@ void handleRoot() {
               <button onclick=\"activatePump()\">Run Pump</button>\
             </body>\
            </html>",
-           DEVICENAME,SOFTWARE_VERSION,currentip.c_str(),statusPagePort,DEVICENAME,SOFTWARE_VERSION, hr, min % 60, sec % 60, sensorDataTemp, sensorDataHumd, sensorDataIndx
+           DEVICENAME,SOFTWARE_VERSION,currentip.c_str(),statusPagePort,DEVICENAME,SOFTWARE_VERSION, hr, min % 60, sec % 60
            );
   server.send(200, "text/html", temp);
   digitalWrite(WIFI_INFO_LED_PIN, 0);
 }
+
 void handleNotFound() {
   digitalWrite(WIFI_INFO_LED_PIN, 1);
   String message = "File Not Found\n\n";

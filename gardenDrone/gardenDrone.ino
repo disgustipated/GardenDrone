@@ -17,7 +17,7 @@ const int WIFI_RESET_PIN = 14;
 //vars
 const int  statusPagePort = 8266;
 const char* SOFTWARE_VERSION = "1.0 Garden Drone";
-const char* DEVICENAME = "GardenDrone"; 
+const char* DEVICENAME = "GardenDroneMain"; 
 const long ACTIVATE_DURATION = 300000;
 const long CHECK_WIFI_INTERVAL = 30000;
 long duration;
@@ -38,7 +38,10 @@ void setup() {
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   //wifiManager.setSTAStaticIPConfig(IPAddress(6,13,0,218), IPAddress(6,13,0,1), IPAddress(255,255,255,0)); //Remove this for DHCP
-  wifiManager.autoConnect("ESPSetup", "wifiSetup1");
+  wifiManager.setHostname(DEVICENAME);
+  if(!wifiManager.autoConnect("ESPSetup", "wifiSetup1")){
+    wifiManager.autoConnect("ESPSetup", "wifiSetup1");
+  }
   setupWeb();
 }
 
